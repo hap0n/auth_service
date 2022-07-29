@@ -3,7 +3,7 @@ import re
 
 
 class UserBase(BaseModel):
-    nickname: str
+    username: str
 
 
 class UserDTO(UserBase):
