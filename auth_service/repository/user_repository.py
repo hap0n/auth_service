@@ -8,19 +8,19 @@ from auth_service.utils.database import PostgresDB
 
 
 class UserRepository:
-    session: Session = Depends(PostgresDB.get_session_local())
+    session: Session = Depends(PostgresDB.get_session_local)
 
     @classmethod
     def get_user(cls, user_id: int) -> Optional[User]:
         return cls.session.query(User).filter(User.id == user_id).first()
 
     @classmethod
-    def get_user_by_nickname(cls, nickname: str) -> Optional[User]:
-        return cls.session.query(User).filter(User.nickname == nickname).first()
+    def get_user_by_username(cls, username: str) -> Optional[User]:
+        return cls.session.query(User).filter(User.username == username).first()
 
     @classmethod
-    def get_users(cls, skip: int = 0, limit: int = 100) -> List[User]:
-        return cls.session.query(User).offset(skip).limit(limit).all()
+    def get_users(cls, offset: int = 0, limit: int = 100) -> List[User]:
+        return cls.session.query(User).offset(offset).limit(limit).all()
 
     @classmethod
     def create_user(cls, user: User) -> User:
@@ -31,5 +31,5 @@ class UserRepository:
 
     @classmethod
     def update_password(cls, user: User):
-        cls.session.query(User).filter(User.nickname == user.nickname).update({"hashed_password": user.hashed_password})
+        cls.session.query(User).filter(User.username == user.username).update({"hashed_password": user.hashed_password})
         cls.session.commit()
