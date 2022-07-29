@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from fastapi import Depends
 from sqlalchemy.orm import Session
 
 from auth_service.repository.models.user import User
@@ -8,7 +7,7 @@ from auth_service.utils.database import PostgresDB
 
 
 class UserRepository:
-    session: Session = Depends(PostgresDB.get_session_local)
+    session: Session = PostgresDB.get_session_local()
 
     @classmethod
     def get_user(cls, user_id: int) -> Optional[User]:

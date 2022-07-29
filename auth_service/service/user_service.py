@@ -1,8 +1,8 @@
 from passlib.handlers.bcrypt import bcrypt
 
-from auth_service.router import schemas
 from auth_service.repository.models.user import User
 from auth_service.repository.user_repository import UserRepository
+from auth_service.router import schemas
 
 
 class UserService:

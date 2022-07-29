@@ -1,7 +1,7 @@
 import os
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 
 class PostgresDB:
@@ -17,14 +17,14 @@ class PostgresDB:
         return f"postgresql://{usr}:{pwd}@{host}:{port}/{db_name}"
 
     @classmethod
-    def get_session_local(cls):
+    def get_session_local(cls) -> Session:
         if not cls._session_local:
             engine = create_engine(cls.get_connection_url(), connect_args={"check_same_thread": False})
             cls._session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-        return cls._session_local
+        return cls._session_local()
 
     @classmethod
-    def get_instance(cls):
+    def get_instance(cls) -> Session:
         db = cls.get_session_local()
         try:
             yield db

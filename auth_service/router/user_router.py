@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
 from typing import List
+
+from fastapi import APIRouter, HTTPException
 
 from auth_service.repository.user_repository import UserRepository
 from auth_service.router import schemas
@@ -17,7 +18,7 @@ async def create_user(user: schemas.user.UserDTO):
 
 
 @user_router.get("/", response_model=List[schemas.user.User], tags=["users"])
-async def read_users(offset: int, limit: int):
+async def read_users(offset: int = 0, limit: int = 100):
     return UserRepository.get_users(offset=offset, limit=limit)
 
 
